@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/month_tv_date"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="#21a4ff"
+        android:gravity="center"
+        android:textColor="@color/colorBeige"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/gridview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+
+    <GridView
+        android:id="@+id/gridview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="16dp"
+        android:layout_weight="1"
+        android:listSelector="@color/colorDarkYellow"
+        android:numColumns="7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/month_tv_date">
+
+    </GridView>
+
+    <Button
+        android:id="@+id/btn_prevMonth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/month_tv_date"
+        app:layout_constraintStart_toStartOf="@+id/month_tv_date"
+        app:layout_constraintTop_toTopOf="@+id/month_tv_date" />
+
+    <Button
+        android:id="@+id/btn_nextMonth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/month_tv_date"
+        app:layout_constraintEnd_toEndOf="@+id/month_tv_date"
+        app:layout_constraintTop_toTopOf="@+id/month_tv_date"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+</android.support.constraint.ConstraintLayout>

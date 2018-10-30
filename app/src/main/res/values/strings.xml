@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">TestCalendar</string>
+    <string name="app_icon">drawable\calendar_icon.png</string>
+</resources>

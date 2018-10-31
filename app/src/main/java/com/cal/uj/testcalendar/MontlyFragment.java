@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,8 +30,8 @@ public class MontlyFragment extends Fragment {
     private Calendar mCal;
     private ArrayList<String> dayList;
     private SingtonResources mSingleton;
-    private Button btnPrevMonth;
-    private Button btnNextMonth;
+    private ImageButton btnPrevMonth;
+    private ImageButton btnNextMonth;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -56,7 +57,6 @@ public class MontlyFragment extends Fragment {
         else{
             monthlyGridAdapter = mSingleton.getSingleMonthlyGridAdapter();
         }
-
         monthlyGridView.setAdapter(monthlyGridAdapter);
         setCalendarDate(mSingleton.intMonth - 1);
         btnNextMonth.setOnClickListener(new View.OnClickListener() {
@@ -66,7 +66,6 @@ public class MontlyFragment extends Fragment {
                 if(mSingleton.intMonth == 13){
                     mSingleton.intMonth = 1;
                     mSingleton.intYear += 1;
-                    mSingleton.singleCalendar.set(Calendar.YEAR, mSingleton.intYear);
                 }
                 setCalendarDate(mSingleton.intMonth - 1);
                 tvDate.setText(Integer.toString(mSingleton.intYear) + "년 - " + Integer.toString(mSingleton.intMonth) + "월");
@@ -80,7 +79,6 @@ public class MontlyFragment extends Fragment {
                 if(mSingleton.intMonth == 0){
                     mSingleton.intMonth = 12;
                     mSingleton.intYear -= 1;
-                    mSingleton.singleCalendar.set(Calendar.YEAR, mSingleton.intYear);
                 }
                 setCalendarDate(mSingleton.intMonth - 1);
                 tvDate.setText(Integer.toString(mSingleton.intYear) + "년 - " + Integer.toString(mSingleton.intMonth) + "월");
@@ -91,9 +89,13 @@ public class MontlyFragment extends Fragment {
     }
 
     private void setCalendarDate(int month) {
-        mCal.set(Calendar.MONTH, month);
-        dayList.clear();
+        mCal.set(mSingleton.intYear , month - 1, 1);
+        int lastMonthStartDay = mCal.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        mCal.set(mSingleton.intYear , month, 1);
         int dayNum = mCal.get(Calendar.DAY_OF_WEEK);
+        lastMonthStartDay -= (dayNum - 1) - 1;
+        dayList.clear();
         dayList.add("일");
         dayList.add("월");
         dayList.add("화");
@@ -102,7 +104,7 @@ public class MontlyFragment extends Fragment {
         dayList.add("금");
         dayList.add("토");
         for(int i = 1; i < dayNum; i++){
-            dayList.add("");
+            dayList.add(Integer.toString(lastMonthStartDay + i - 1));
         }
         for (int i = 0; i < mCal.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
             dayList.add("" + (i + 1));

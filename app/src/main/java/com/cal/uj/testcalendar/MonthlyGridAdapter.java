@@ -14,7 +14,6 @@ import java.util.List;
 public class MonthlyGridAdapter extends BaseAdapter {
     private final List<String> list;
     private final LayoutInflater inflater;
-    private boolean FlagChangeTextColor;
     private int mDayNum;
     private SingtonResources singtonResources;
     /**
@@ -46,22 +45,25 @@ public class MonthlyGridAdapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.tvItemGridView = convertView.findViewById(R.id.month_gridview_item);
             convertView.setTag(holder);
-        } else {
+        }
+        else {
             holder = (ViewHolder)convertView.getTag();
         }
-        holder.tvItemGridView.setText("" + getItem(position));
-        if(singtonResources.int_curYear == singtonResources.intYear && singtonResources.int_curMonth == singtonResources.intMonth) {
-            String sToday = singtonResources.singleCurDay.format(singtonResources.singleDate);
-            if (sToday.equals(getItem(position))) { //change today text color
-                holder.tvItemGridView.setTextColor(convertView.getResources().getColor(R.color.colorSky, convertView.getContext().getTheme()));
-                mDayNum = position;
-                FlagChangeTextColor = true;
-            }
+        int startDay = singtonResources.singleCalendar.get(Calendar.DAY_OF_WEEK);
+        if(position > 6 && position - 6 < startDay){
+            holder.tvItemGridView.setTextColor(convertView.getResources().getColor(R.color.colorGrey, convertView.getContext().getTheme()));
         }
         else{
-            if(FlagChangeTextColor = true && position == mDayNum){
-                holder.tvItemGridView.setTextColor(convertView.getResources().getColor(R.color.colorPrimaryDark, convertView.getContext().getTheme()));
-                FlagChangeTextColor = false;
+            holder.tvItemGridView.setTextColor(convertView.getResources().getColor(R.color.colorPrimaryDark, convertView.getContext().getTheme()));
+        }
+        holder.tvItemGridView.setText("" + getItem(position));
+
+        if(singtonResources.int_curYear == singtonResources.intYear && singtonResources.int_curMonth == singtonResources.intMonth) {
+            String sToday = singtonResources.singleCurDay.format(singtonResources.singleDate);
+            int iToday = Integer.parseInt(sToday);
+            if (position - 6 == iToday + 1) { //change today text color
+                holder.tvItemGridView.setTextColor(convertView.getResources().getColor(R.color.colorSky, convertView.getContext().getTheme()));
+                mDayNum = position;
             }
         }
 

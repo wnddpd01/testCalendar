@@ -6,5 +6,6 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBeige">#f4f3dc</color>
     <color name="colorSky">#70b7ff</color>
+    <color name="colorGrey">#c0cee2</color>
     <color name="colorDarkYellow">#b28517</color>
 </resources>

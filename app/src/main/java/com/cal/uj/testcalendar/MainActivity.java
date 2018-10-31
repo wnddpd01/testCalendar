@@ -24,8 +24,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_main);
 
-
-
         pref = getSharedPreferences("pref",MODE_PRIVATE);
         prefEditor = pref.edit();
         mTabLayout = (TabLayout)findViewById(R.id.tabLayout);

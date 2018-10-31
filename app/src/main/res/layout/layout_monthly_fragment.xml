@@ -32,7 +32,7 @@
         android:layout_marginTop="48dp"
         android:layout_marginEnd="16dp"
         android:layout_weight="1"
-        android:listSelector="@color/colorDarkYellow"
+        android:listSelector="@drawable/select_box"
         android:numColumns="7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -41,26 +41,30 @@
 
     </GridView>
 
-    <Button
+    <ImageButton
         android:id="@+id/btn_prevMonth"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:layout_marginStart="32dp"
-        android:text="Button"
+        android:scaleType="fitCenter"
+        android:src="@drawable/arrow"
+        android:rotation="180"
+        android:background="@null"
         app:layout_constraintBottom_toBottomOf="@+id/month_tv_date"
         app:layout_constraintStart_toStartOf="@+id/month_tv_date"
         app:layout_constraintTop_toTopOf="@+id/month_tv_date" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btn_nextMonth"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:layout_marginEnd="32dp"
-        android:text="Button"
+        android:scaleType="fitCenter"
+        android:src="@drawable/arrow"
+        android:background="@null"
         app:layout_constraintBottom_toBottomOf="@+id/month_tv_date"
         app:layout_constraintEnd_toEndOf="@+id/month_tv_date"
-        app:layout_constraintTop_toTopOf="@+id/month_tv_date"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="@+id/month_tv_date" />
 
 
 </android.support.constraint.ConstraintLayout>

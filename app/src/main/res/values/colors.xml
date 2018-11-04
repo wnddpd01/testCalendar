@@ -4,8 +4,10 @@
     <color name="colorPrimaryDark">#303338</color>
     <color name="colorAccent">#276682</color>
     <color name="colorWhite">#FFFFFF</color>
-    <color name="colorBeige">#f4f3dc</color>
+    <color name="colorBeige">#f7f2e6</color>
     <color name="colorSky">#70b7ff</color>
     <color name="colorGrey">#c0cee2</color>
-    <color name="colorDarkYellow">#b28517</color>
+    <color name="colorDarkYellow">#e8b1a2</color>
+    <color name="colorBack">#7399ba</color>
+    <color name="colorDarkBlue">#547b91</color>
 </resources>

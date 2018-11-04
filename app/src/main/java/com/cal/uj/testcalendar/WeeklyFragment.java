@@ -4,7 +4,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
@@ -17,61 +21,58 @@ import java.util.List;
 
 public class WeeklyFragment extends Fragment {
     private TextView tvDate;
-    private GridView weeklyGridView;
-    private WeeklyGridAdapter weeklyGridAdapter;
-    private Calendar mCal;
-    private List<String> dayList;
-    private ArrayList<String> WeekDayList;
     private SingtonResources mSingleton;
     private ImageButton btnPrevWeek;
     private ImageButton btnNextWeek;
-    private int weekNum = 0;
+
+    private RecyclerView recyclerViewWeek;
+    private RecyclerView.Adapter adapterWeek;
+    private RecyclerView.LayoutManager layoutManagerWeek;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.layout_weekly_fragment, container, false);
         super.onCreate(savedInstanceState);
-        WeekDayList = new ArrayList<String>();
+
+        recyclerViewWeek = (RecyclerView)v.findViewById(R.id.recyclerview_week);
+        recyclerViewWeek.setHasFixedSize(true);
+        layoutManagerWeek = new GridLayoutManager(getActivity() , 7, GridLayoutManager.HORIZONTAL, false);
+        recyclerViewWeek.setLayoutManager(layoutManagerWeek);
+
         mSingleton = SingtonResources.getInstance();
-        tvDate = v.findViewById(R.id.week_tv_date);
-        weeklyGridView = v.findViewById(R.id.gridview_week);
+        mSingleton.tv_week_date = v.findViewById(R.id.week_tv_date);
+        tvDate = mSingleton.tv_week_date;
         btnNextWeek = v.findViewById(R.id.btn_nextWeek);
         btnPrevWeek = v.findViewById(R.id.btn_prevWeek);
-        mCal = mSingleton.singleCalendar;
-
-        dayList = mSingleton.singleDays;
-        mSingleton.setCalendarDate(mSingleton.intMonth - 1);
+        mSingleton.intYear = mSingleton.int_curYear;
+        mSingleton.setCalendarDate(mSingleton.int_curMonth - 1);
+        mSingleton.intDay = 1 + ((mSingleton.int_curDay + mSingleton.MonthStartDayNum - 1) / 7) * 7;
         tvDate.setText(Integer.toString(mSingleton.intYear) + "년 - " + Integer.toString(mSingleton.intMonth) + "월  " + Integer.toString((mSingleton.intDay / 7) + 1) + "번째 주");
 
-        if (mSingleton.getSingleWeeklyGridAdapter() == null) {
+        if (mSingleton.getSingleWeeklyRecyclerAdapter() == null) {
             int j = 0;
-            for(int i = 0; i < 49; i++){
-                if(i % 7 == 0){
-                    WeekDayList.add(dayList.get(j));
-                }
-                else if(i % 7 == 1){
-                    WeekDayList.add(dayList.get(j + 7 + (weekNum * 7)));
-                    j++;
-                }
-                else{
-                    this.WeekDayList.add("");
-                }
+            for(int i = 0; i < 7; i++){
+                mSingleton.singleWeekDays.add(mSingleton.singleDays.get(i));
+                mSingleton.singleWeekDays.add(mSingleton.singleDays.get(((mSingleton.intDay / 7 + 1) * 7)  + i));
+                mSingleton.singleWeekDays.add("");
             }
-            mSingleton.setSingleWeeklyGridAdapter(inflater.getContext(), WeekDayList);
-            weeklyGridAdapter = mSingleton.getSingleWeeklyGridAdapter();
+            mSingleton.setSingleWeeklyRecyclerAdapter(mSingleton.singleWeekDays);
+            adapterWeek = mSingleton.getSingleWeeklyRecyclerAdapter();
         } else {
-            weeklyGridAdapter = mSingleton.getSingleWeeklyGridAdapter();
+            adapterWeek = mSingleton.getSingleWeeklyRecyclerAdapter();
         }
-        weeklyGridView.setAdapter(weeklyGridAdapter);
+        recyclerViewWeek.setAdapter(adapterWeek);
 
         btnNextWeek.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WeekDayList.clear();
+                mSingleton.weekSelectedPosition = -1;
+                mSingleton.singleWeekDays.clear();
                 mSingleton.intDay += 7;
-                weekNum++;
-                if(mSingleton.intDay > mSingleton.MonthLastDay){
+                mSingleton.int_selected_year = -1;
+                int weekNum = mSingleton.intDay / 7;
+                if(mSingleton.intDay > mSingleton.MonthLastDay + mSingleton.MonthStartDayNum - 1){
                     mSingleton.intDay = 1;
                     if(mSingleton.intMonth == 12){
                         mSingleton.intYear += 1;
@@ -81,32 +82,26 @@ public class WeeklyFragment extends Fragment {
                         mSingleton.intMonth += 1;
                     }
                     mSingleton.setCalendarDate(mSingleton.intMonth - 1);
-                    weekNum = 0;
+                    weekNum = mSingleton.intDay / 7;
                 }
-                int j = 0;
-                for(int i = 0; i < 49; i++){
-                    if(i % 7 == 0){
-                        WeekDayList.add(dayList.get(j));
-                    }
-                    else if(i % 7 == 1){
-                        WeekDayList.add(dayList.get(j + 7 + (weekNum * 7)));
-                        j++;
-                    }
-                    else{
-                        WeekDayList.add("");
-                    }
+                for(int i = 0; i < 7; i++){
+                    mSingleton.singleWeekDays.add(mSingleton.singleDays.get(i));
+                    mSingleton.singleWeekDays.add(mSingleton.singleDays.get(((weekNum + 1) * 7)  + i));
+                    mSingleton.singleWeekDays.add("");
                 }
                 tvDate.setText(Integer.toString(mSingleton.intYear) + "년 - " + Integer.toString(mSingleton.intMonth) + "월  " + Integer.toString((weekNum + 1)) + "번째 주");
-                mSingleton.getSingleWeeklyGridAdapter().notifyDataSetChanged();
+                mSingleton.getSingleWeeklyRecyclerAdapter().notifyDataSetChanged();
             }
         });
 
         btnPrevWeek.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WeekDayList.clear();
+                mSingleton.weekSelectedPosition = -1;
+                mSingleton.singleWeekDays.clear();
                 mSingleton.intDay -= 7;
-                weekNum--;
+                mSingleton.int_selected_year = -1;
+                int weekNum = mSingleton.intDay / 7;
                 if(mSingleton.intDay < 1){
                     mSingleton.intDay = 1;
                     if(mSingleton.intMonth == 1){
@@ -117,24 +112,16 @@ public class WeeklyFragment extends Fragment {
                         mSingleton.intMonth -= 1;
                     }
                     mSingleton.setCalendarDate(mSingleton.intMonth - 1);
-                    weekNum = mSingleton.MonthLastDay / 7;
-                    mSingleton.intDay = 1 + (7 * weekNum);
+                    weekNum = (mSingleton.MonthLastDay + mSingleton.MonthStartDayNum - 2) / 7;
+                    mSingleton.intDay = (weekNum * 7) + 1;
                 }
-                int j = 0;
-                for(int i = 0; i < 49; i++){
-                    if(i % 7 == 0){
-                        WeekDayList.add(dayList.get(j));
-                    }
-                    else if(i % 7 == 1){
-                        WeekDayList.add(dayList.get(j + 7 + (weekNum * 7)));
-                        j++;
-                    }
-                    else{
-                        WeekDayList.add("");
-                    }
+                for(int i = 0; i < 7; i++){
+                    mSingleton.singleWeekDays.add(mSingleton.singleDays.get(i));
+                    mSingleton.singleWeekDays.add(mSingleton.singleDays.get(((weekNum + 1) * 7)  + i));
+                    mSingleton.singleWeekDays.add("");
                 }
                 tvDate.setText(Integer.toString(mSingleton.intYear) + "년 - " + Integer.toString(mSingleton.intMonth) + "월  " + Integer.toString((weekNum + 1)) + "번째 주");
-                mSingleton.getSingleWeeklyGridAdapter().notifyDataSetChanged();
+                mSingleton.getSingleWeeklyRecyclerAdapter().notifyDataSetChanged();
             }
         });
         return v;

@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.Toast;
 
 
 public class IntroActivity extends Activity {
+    SingtonResources singtonResources;
     private Handler intro_handler = new Handler();
     private Runnable intro_runnable = new Runnable() {
         @Override
@@ -20,7 +22,7 @@ public class IntroActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_intro);
-        SingtonResources.getInstance();
+        singtonResources = SingtonResources.getInstance();
     }
 
     @Override

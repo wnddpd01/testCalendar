@@ -1,17 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <TextView
-        android:id="@+id/tvDailyFrag"
-        android:textSize="20dp"
-        android:textStyle="bold"
+        android:id="@+id/day_tv_date"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="#21a4ff"
+        android:gravity="center"
+        android:textColor="@color/colorBeige"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageButton
+        android:id="@+id/btn_prevDay"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="8dp"
+        android:background="@null"
+        android:rotation="180"
+        android:scaleType="fitCenter"
+        android:src="@drawable/arrow"
+        app:layout_constraintBottom_toBottomOf="@+id/day_tv_date"
+        app:layout_constraintStart_toStartOf="@+id/day_tv_date"
+        app:layout_constraintTop_toTopOf="@+id/day_tv_date" />
+
+    <ImageButton
+        android:id="@+id/btn_nextDay"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="8dp"
+        android:background="@null"
+        android:scaleType="fitCenter"
+        android:src="@drawable/arrow"
+        app:layout_constraintBottom_toBottomOf="@+id/day_tv_date"
+        app:layout_constraintEnd_toEndOf="@+id/day_tv_date"
+        app:layout_constraintTop_toTopOf="@+id/day_tv_date" />
+
+    <TextView
+        android:id="@+id/tv_day_schedule"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="day"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/day_tv_date" />
 </android.support.constraint.ConstraintLayout>

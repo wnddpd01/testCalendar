@@ -10,13 +10,14 @@ import java.util.ArrayList;
 public class TabPagerAdapter extends FragmentStatePagerAdapter {
     private ArrayList<CharSequence> tabTitleArray= new ArrayList<CharSequence>();
     private int tabCount;
-
+    private SingtonResources singtonResources;
     public TabPagerAdapter(FragmentManager fm) {
         super(fm);
         this.tabCount = 3;
         tabTitleArray.add("Monthly");
         tabTitleArray.add("Weekly");
         tabTitleArray.add("Daily");
+        singtonResources = SingtonResources.getInstance();
     }
 
     @Override
